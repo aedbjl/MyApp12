@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var anim:UIDynamicAnimator?
+    
+    
+    
     @IBAction func test1(_ sender: Any) {
        let darkEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let darkView = UIVisualEffectView(effect: darkEffect)
@@ -78,17 +82,41 @@ class ViewController: UIViewController {
         
     }
     
+   
+    
+    
     @IBAction func test6(_ sender: Any) {
         
-        let anim = UIDynamicAnimator(referenceView: view)
+        anim = UIDynamicAnimator(referenceView: view)
         
         let beh = UIGravityBehavior(items: [apple])
-        beh.gravityDirection = CGVector(dx: 0, dy: 1)
-        anim.addBehavior(beh)
+        beh.gravityDirection = CGVector(dx: 0, dy: -1)
+        
+        let beh2 = UICollisionBehavior(items: [apple])
+        beh2.translatesReferenceBoundsIntoBoundary = true
+        
+        anim!.addBehavior(beh2)
+        anim!.addBehavior(beh)
     }
     
     
     
+    @IBAction func test7(_ sender: Any) {
+        anim = UIDynamicAnimator(referenceView: view)
+        let beh = UIPushBehavior(items: [apple], mode: UIPushBehaviorMode.continuous)
+        
+        beh.magnitude = 2.0 // 2000 point / s^2
+        beh.angle = 45 / 180 * CGFloat(M_PI)
+        
+        let beh2 = UICollisionBehavior(items: [apple])
+        beh2.translatesReferenceBoundsIntoBoundary = true
+        
+        anim?.addBehavior(beh)
+        anim?.addBehavior(beh2)
+        
+        
+        
+    }
     
     @IBOutlet weak var welcome: UIImageView!
     
